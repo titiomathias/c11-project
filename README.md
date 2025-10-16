@@ -14,6 +14,7 @@ O objetivo da análise é gerar insights sobre como as empresas podem lidar com 
 - Qual o impacto financeiro causado por esse vetor de ataque?
 - Quais as fontes de ataques mais comuns conhecidas?
 - Qual país teve o maior prejuízo financeiro?
+- Qual a proporção de crescimento/decrescimento dos setores?
 
 
 Para conseguir responder a cada uma das perguntas, utilizaremos do dataset a seguir: <a href="https://www.kaggle.com/datasets/atharvasoundankar/global-cybersecurity-threats-2015-2024">Global Cybersecurity Threats (2015-2024)</a>
