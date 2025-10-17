@@ -51,7 +51,27 @@ print(top_setors)
 # 3. Quais os vetores de ataque mais eficientes?
 # O que define a eficiência de um vetor de ataque?
 # Pode ser o que causa mais prejuízo financeiro, ou o que afeta mais usuários, ou o que leva mais tempo para resolver.
+avg_financial_loss = dataset.groupby('Attack Type')['Financial Loss (in Million $)'].mean()
+avg_resolution_time = dataset.groupby('Attack Type')['Incident Resolution Time (in Hours)'].mean()
+avg_affected_users = dataset.groupby('Attack Type')['Number of Affected Users'].mean()
 
+# Definirei 3 tipos de eficacia
+# 1. Prejuízo / hora
+efficacy_1 = avg_financial_loss/avg_resolution_time
+efficacy_1 = efficacy_1.nlargest(10)
+
+# 2. Usuários afetados / hora
+efficacy_2 = avg_affected_users/avg_resolution_time
+efficacy_2 = efficacy_2.nlargest(10)
+
+# 3. Prejuízo / Usuário
+efficacy_3 = avg_financial_loss/avg_affected_users
+efficacy_3 = efficacy_3.nlargest(10)
+
+print(f'Mais Eficaz de acordo com:\n'
+      f'Prejuízo por hora:\n{efficacy_1}\n'
+      f'Usuários afetados por hora:\n{efficacy_2}\n'
+      f'Prejuízo por usuário afetado:\n{efficacy_3}\n')
 
 # 4 Qual o impacto financeiro desse vetor de ataque?
 
