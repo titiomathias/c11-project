@@ -45,8 +45,7 @@ fig.add_trace(go.Scattergeo(
 
 fig.update_layout(
     title='Globo Interativo de Ataques Cibernéticos',
-    width=1000,
-    height=1000,
+    autosize=True,          # permite ajuste automático
     margin=dict(l=0, r=0, t=50, b=0),
     geo=dict(
         projection_type='orthographic',
