@@ -51,7 +51,7 @@ plt.gca().invert_yaxis()
 plt.show()
 
 
-# 2. Quais indústrias são mais afetadas por esses ataques?
+# 2. Quais indústrias são mais afetadas por esses ataques (por ano)?
 attacks_by_sector_year = dataset.groupby(['Year', 'Target Industry']).size().reset_index(name='Attack Count')
 avg_attacks_sector = attacks_by_sector_year.groupby('Target Industry')['Attack Count'].mean().sort_values(ascending=False).head(10)
 print("Top 10 setores com maior média anual de ataques cibernéticos:")
@@ -150,6 +150,8 @@ efficiency_score = efficiency_score.sort_values(ascending=False)
 print("\n\nRanking geral de eficiência dos mecanismos de defesa (quanto maior, melhor):")
 print(efficiency_score)
 
+# Gráfico
+
 top_defenses = efficiency_score.head(10)
 plt.figure(figsize=(10,5))
 top_defenses.plot(kind='barh', color='green')
@@ -162,6 +164,7 @@ plt.show()
 top_source = dataset['Attack Source'].value_counts().head(10)
 print("Top 10 fontes de ataques mais comuns:")
 print(top_source)
+# Gráfico
 top_source.plot(kind='pie', autopct='%1.1f%%', figsize=(7,7), startangle=90, colormap='tab20')
 plt.title('Fontes de ataques mais comuns')
 plt.ylabel('')
@@ -173,6 +176,7 @@ max_loss_country = dataset.groupby('Country')['Financial Loss (in Million $)'].s
 max_loss_value = dataset.groupby('Country')['Financial Loss (in Million $)'].sum()
 print(f"País com maior prejuízo financeiro: {max_loss_country} com um total de {max_loss_value[max_loss_country]} milhões de dólares.")
 loss_by_country = dataset.groupby('Country')['Financial Loss (in Million $)'].sum().sort_values(ascending=False).head(10)
+# Gráfico
 loss_by_country.plot(kind='barh', color='darkblue', figsize=(10,6))
 plt.title('Top 10 países com maior prejuízo financeiro')
 plt.xlabel('Perdas totais (em milhões de US$)')
@@ -184,6 +188,7 @@ plt.show()
 avg_resolution_by_attack = dataset.groupby('Attack Type')['Incident Resolution Time (in Hours)'].mean().sort_values()
 print("Tempo médio de resolução de incidentes por tipo de ataque:")
 print(avg_resolution_by_attack)
+# Gráfico
 avg_resolution_by_attack.plot(kind='bar', color='purple', figsize=(10,6))
 plt.title('Tempo médio de resolução de incidentes por tipo de ataque')
 plt.ylabel('Horas (média)')
