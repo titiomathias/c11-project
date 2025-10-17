@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Globo Interativo - Ataques Cibernéticos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        header {
+            background-color: #1e1e2f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        #globo-container {
+            width: 100%;
+            height: 90vh;
+        }
+        .btn-back {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            text-align: center;
+            background-color: #ff4c4c;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        .btn-back:hover {
+            background-color: #e04343;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Globo Interativo de Ataques Cibernéticos</h1>
+    </header>
+
+    <div id="globo-container">
+        <iframe src="globo_cyber.html" style="width:100%; height:100%; border:none;"></iframe>
+    </div>
+
+    <section>
+        <h1>Principais Conclusões</h1>
+    </section>
+
+    <a href="index.html" class="btn-back">Voltar para Página Inicial</a>
+</body>
+</html>

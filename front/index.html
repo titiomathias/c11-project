@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio - Análise de Ataques Cibernéticos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+    <header>
+        <h1>Estudo de Caso de Ataques Cibernéticos</h1>
+        <p>Visualização interativa dos principais ataques cibernéticos globais (2015-2024)</p>
+    </header>
+
+    <main>
+        <section id="about">
+            <h2>Sobre o Projeto</h2>
+            <p>Este projeto foi desenvolvido com o intuito de analisar os ataques cibernéticos mais relevantes ocorridos entre 2015 e 2024, explorando dados de países, setores, tipos de ataques, prejuízos financeiros e usuários afetados.</p>
+        </section>
+
+        <section id="team">
+            <h2>Equipe</h2>
+            <div class="team">
+                <div class="team-member" onclick="link('joao')">
+                    <div class="home-img">
+                        <img src="img/joao.png"/>
+                    </div>
+                    <h3>João Paulo</h3>
+                    <span>Cientista de Dados</span>
+                </div>
+                <div class="team-member" onclick="link('matheus')">
+                    <div class="home-img">
+                        <img src="img/matheus.png"/>
+                    </div>
+                    <h3>Matheus de Alencar</h3>
+                    <span>Hacker Ético</span>
+                </div>
+                <div class="team-member" onclick="link('tales')">
+                    <div class="home-img">
+                        <img src="img/tales.png"/>
+                    </div>
+                    <h3>Tales Henrique</h3>
+                    <span>Arquiteto de Software</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="details">
+            <h2>Dataset Utilizado</h2>
+            <p><a href="https://www.kaggle.com/datasets/atharvasoundankar/global-cybersecurity-threats-2015-2024" target="_blank">Global Cybersecurity Threats 2015-2024</a>. Contém informações sobre tipos de ataque, setores afetados, prejuízos financeiros, número de usuários impactados, estratégias de defesa e tempo de resolução de incidentes.</p>
+        </section>
+
+        <div class="button-container">
+            <a href="globo.html" class="btn">Visualizar Dados</a>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 Matheus Alencar. Todos os direitos reservados.
+    </footer>
+    <script>
+        function link(name){
+        let url = '';
+        if(name === "joao"){
+            url = "https://www.linkedin.com/in/joão-paulo-fonseca-bernardo";
+        } else if(name === "matheus"){
+            url = "https://linkedin.com/in/matheus-de-alencar-455b2033b/"; 
+        } else if(name === "tales"){
+            url = "https://www.linkedin.com/in/tales-henrique-moreira-carvalho-9771b428b";
+        }
+
+        if(url !== ''){
+            window.open(url, '_blank');
+        }
+    }
+    </script>
+</body>
+</html>
