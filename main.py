@@ -3,6 +3,7 @@ import utils.dataset as dt
 import utils.tools as tools
 import os
 import matplotlib.pyplot as plt
+import pycountry
 
 dataset_path = "dataset/Global_Cybersecurity_Threats_2015-2024.csv"
 
@@ -317,3 +318,49 @@ plt.gca().xaxis.set_major_formatter(FuncFormatter(lambda y, _: f'{y:.0%}'))
 plt.grid(axis='x', linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.show()
+
+
+# 1. Consolidar dados por país
+globe_data = dataset.groupby('Country').agg({
+    'Financial Loss (in Million $)': 'sum',
+    'Number of Affected Users': 'sum',
+}).reset_index()
+
+# 2. Adicionar contagem de ataques
+attack_counts = dataset['Country'].value_counts().reset_index()
+attack_counts.columns = ['Country', 'Attack Count']
+globe_data = pd.merge(globe_data, attack_counts, on='Country', how='left')
+
+# 3. Adicionar coordenadas aproximadas de cada país
+def get_country_lat_lon(country_name):
+    # Você pode usar uma tabela estática ou o pycountry-convert + geopy se quiser mais precisão
+    coords = {
+        'USA': (38, -97),
+        'China': (35, 103),
+        'Russia': (61, 100),
+        'Germany': (51, 10),
+        'Brazil': (-10, -55),
+        'India': (20, 77),
+        'UK': (55, -3),
+        'France': (46, 2),
+        'Japan': (36, 138),
+        'Australia': (-25, 133),
+    }
+    return coords.get(country_name, (0, 0))  # padrão: (0,0)
+
+globe_data[['Latitude', 'Longitude']] = globe_data['Country'].apply(
+    lambda c: pd.Series(get_country_lat_lon(c))
+)
+
+# 4. Reordenar colunas
+globe_data = globe_data[[
+    'Country', 'Latitude', 'Longitude',
+    'Attack Count', 'Financial Loss (in Million $)', 'Number of Affected Users'
+]]
+
+# 5. Salvar o CSV para uso no globo
+os.makedirs('data', exist_ok=True)
+globe_data.to_csv('data/globe_data.csv', index=False)
+print("\nDados exportados para 'data/globe_data.csv' com sucesso!")
+print(globe_data.head())
+
