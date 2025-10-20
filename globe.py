@@ -15,7 +15,7 @@ fig.add_trace(go.Scattergeo(
                               f"Usuários afetados: {int(row['Number of Affected Users']):,}",
                   axis=1),
     marker=dict(
-        size=df['Attack Count'] / df['Attack Count'].max() * 40,  # Escala de tamanho
+        size=df['Attack Count'] / df['Attack Count'].max() * 40,
         color=df['Financial Loss (in Million $)'],
         colorscale='YlOrBr',
         cmin=df['Financial Loss (in Million $)'].min(),
@@ -43,4 +43,4 @@ fig.update_layout(
 )
 
 fig.write_html("globo_cyber.html")
-print("🌍 Arquivo salvo como globo_cyber.html")
+print("Arquivo salvo como globo_cyber.html")

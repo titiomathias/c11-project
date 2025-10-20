@@ -320,20 +320,19 @@ plt.tight_layout()
 plt.show()
 
 
-# 1. Consolidar dados por país
+# EXPORTANDO DADOS REAIS DOS PAÍSES!
+
 globe_data = dataset.groupby('Country').agg({
     'Financial Loss (in Million $)': 'sum',
     'Number of Affected Users': 'sum',
 }).reset_index()
 
-# 2. Adicionar contagem de ataques
+
 attack_counts = dataset['Country'].value_counts().reset_index()
 attack_counts.columns = ['Country', 'Attack Count']
 globe_data = pd.merge(globe_data, attack_counts, on='Country', how='left')
 
-# 3. Adicionar coordenadas aproximadas de cada país
 def get_country_lat_lon(country_name):
-    # Você pode usar uma tabela estática ou o pycountry-convert + geopy se quiser mais precisão
     coords = {
         'USA': (38, -97),
         'China': (35, 103),
@@ -352,13 +351,13 @@ globe_data[['Latitude', 'Longitude']] = globe_data['Country'].apply(
     lambda c: pd.Series(get_country_lat_lon(c))
 )
 
-# 4. Reordenar colunas
 globe_data = globe_data[[
     'Country', 'Latitude', 'Longitude',
     'Attack Count', 'Financial Loss (in Million $)', 'Number of Affected Users'
 ]]
 
-# 5. Salvar o CSV para uso no globo
+
+
 os.makedirs('data', exist_ok=True)
 globe_data.to_csv('data/globe_data.csv', index=False)
 print("\nDados exportados para 'data/globe_data.csv' com sucesso!")
