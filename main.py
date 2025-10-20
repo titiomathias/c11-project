@@ -43,13 +43,18 @@ avg_attacks_country = attacks_by_country_year.groupby('Country')['Attack Count']
 print("Top 10 países com maior média anual de ataques cibernéticos:")
 print(avg_attacks_country)
 # Gráfico
-avg_attacks_country.plot(kind='barh', color='darkred', figsize=(10,6))
-plt.title('Top 10 países com maior média anual de ataques cibernéticos (2015–2024)')
-plt.xlabel('Média anual de ataques')
-plt.ylabel('País')
+plt.figure(figsize=(10, 6))
+bars = avg_attacks_country.plot(kind='barh', color='#2c3e50') # Azul escuro/cinza profissional
+plt.title('Top 10 Países por Média Anual de Incidentes Cibernéticos (2015–2024)', fontsize=14, pad=15)
+plt.xlabel('Média Anual de Incidentes', fontsize=12)
+plt.ylabel('País', fontsize=12)
 plt.gca().invert_yaxis()
+plt.grid(axis='x', linestyle='--', alpha=0.7)
+# Adicionando rótulos de dados
+for index, value in enumerate(avg_attacks_country):
+    plt.text(value, index, f'{value:.0f}', ha='left', va='center')
+plt.tight_layout()
 plt.show()
-
 
 # 2. Quais indústrias são mais afetadas por esses ataques (por ano)?
 attacks_by_sector_year = dataset.groupby(['Year', 'Target Industry']).size().reset_index(name='Attack Count')
@@ -57,10 +62,15 @@ avg_attacks_sector = attacks_by_sector_year.groupby('Target Industry')['Attack C
 print("Top 10 setores com maior média anual de ataques cibernéticos:")
 print(avg_attacks_sector)
 # Gráfico
-avg_attacks_sector.plot(kind='bar', color='orange', figsize=(10,6))
-plt.title('Setores com maior média anual de ataques cibernéticos (2015–2024)')
-plt.ylabel('Média anual de ataques')
+plt.figure(figsize=(12, 6))
+avg_attacks_sector.plot(kind='bar', color='#e67e22')
+plt.title('Top 10 Setores por Média Anual de Incidentes Cibernéticos (2015–2024)', fontsize=14, pad=15)
+plt.ylabel('Média Anual de Incidentes', fontsize=12)
+plt.xlabel('Setor', fontsize=12)
 plt.xticks(rotation=45, ha='right')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.tight_layout()
 plt.show()
 
 
@@ -89,16 +99,32 @@ print(f'\nMais Eficaz de acordo com:\n'
       f'Usuários afetados por hora:\n{efficacy_2}\n'
       f'Prejuízo por usuário afetado:\n{efficacy_3}\n\n')
 # Gráficos
-fig, axes = plt.subplots(1, 3, figsize=(18,6))
+fig, axes = plt.subplots(1, 3, figsize=(18, 7), sharey=False)
+# (mantive a logica mas plotei de um jeito diferente pra ficar mais visual)
+# Paletas de cores
+color_p = plt.cm.get_cmap('Reds', len(efficacy_1))
+color_u = plt.cm.get_cmap('Oranges', len(efficacy_2))
+color_r = plt.cm.get_cmap('Blues', len(efficacy_3))
 
-efficacy_1.plot(kind='bar', ax=axes[0], title='Prejuízo por hora', color='crimson')
-efficacy_2.plot(kind='bar', ax=axes[1], title='Usuários afetados por hora', color='darkorange')
-efficacy_3.plot(kind='bar', ax=axes[2], title='Prejuízo por usuário', color='steelblue')
+# Gráfico 1: Prejuízo por hora
+efficacy_1.plot(kind='bar', ax=axes[0], title='Eficácia 1: Prejuízo/Hora', color=color_p.colors, edgecolor='black')
+axes[0].set_ylabel('Eficácia (Milhões US$/Hora)')
+axes[0].set_xticklabels(axes[0].get_xticklabels(), rotation=45, ha='right')
+axes[0].grid(axis='y', linestyle='--', alpha=0.7)
 
-for ax in axes:
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
+# Gráfico 2: Usuários afetados por hora
+efficacy_2.plot(kind='bar', ax=axes[1], title='Eficácia 2: Usuários Afetados/Hora', color=color_u.colors, edgecolor='black')
+axes[1].set_ylabel('Eficácia (Usuários Afetados/Hora)')
+axes[1].set_xticklabels(axes[1].get_xticklabels(), rotation=45, ha='right')
+axes[1].grid(axis='y', linestyle='--', alpha=0.7)
 
-plt.suptitle('Eficiência média dos vetores de ataque', fontsize=14)
+# Gráfico 3: Prejuízo por usuário
+efficacy_3.plot(kind='bar', ax=axes[2], title='Eficácia 3: Prejuízo/Usuário', color=color_r.colors, edgecolor='black')
+axes[2].set_ylabel('Eficácia (Milhões US$/Usuário)')
+axes[2].set_xticklabels(axes[2].get_xticklabels(), rotation=45, ha='right')
+axes[2].grid(axis='y', linestyle='--', alpha=0.7)
+
+fig.suptitle('Top 10 Vetores de Ataque Mais Eficazes por Métrica', fontsize=16, y=1.02)
 plt.tight_layout()
 plt.show()
 
@@ -210,9 +236,24 @@ plt.show()
 # 10. Qual a proporção de crescimento/decrescimento dos setores?
 sector_trends = dataset.groupby(['Year', 'Target Industry']).size().unstack(fill_value=0)
 
-sector_growth = sector_trends.pct_change().mean().sort_values(ascending=False)
+sector_growth = sector_trends.pct_change().fillna(0).mean().sort_values(ascending=False).head(10)
 
-print("Média de crescimento percentual de ataques por setor nos últimos 10 anos:")
+print("Top 10 Média de crescimento percentual de ataques por setor (2015-2024):")
 print(sector_growth)
-# Gráfico
-# Preciso achar uma forma de deixar esse gráfico mais legível
+
+plt.figure(figsize=(10, 6))
+# Coloquei as cores de crescimento pra ver e decrescimento pra vermelho por conveniencia, se tiverem ideias melhores podem mudar
+colors = ['#27ae60' if x >= 0 else '#c0392b' for x in sector_growth.sort_values(ascending=True)]
+sector_growth.sort_values(ascending=True).plot(kind='barh', color=colors)
+
+plt.title('Top 10 Setores por Crescimento Médio Anual de Incidentes', fontsize=14, pad=15)
+plt.xlabel('Taxa Média de Crescimento de Incidentes (%)', fontsize=12)
+plt.ylabel('Setor', fontsize=12)
+plt.gca().invert_yaxis()
+
+# Formata o eixo X para mostrar o %
+plt.gca().xaxis.set_major_formatter(FuncFormatter(lambda y, _: f'{y:.0%}'))
+
+plt.grid(axis='x', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
