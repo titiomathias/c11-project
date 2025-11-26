@@ -1,2 +1,5 @@
 kagglehub
 pandas
+matplotlib
+plotly
+pycountry
